@@ -1,6 +1,7 @@
 import telebot
 from config import token
-from scraping.mvideo_parser import MvideoParser
+from scraping.technopark_parser import TechnoparkParser
+
 
 bot = telebot.TeleBot(token=token)
 
@@ -10,5 +11,5 @@ def start_message(message):
 
 if __name__ == '__main__':
     # bot.infinity_polling()
-    instance = MvideoParser()
+    instance = TechnoparkParser()
     print(instance.find_price("iphone 13"))

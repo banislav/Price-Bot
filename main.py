@@ -1,6 +1,7 @@
 import telebot
 from config import token
 from scraping.technopark_parser import TechnoparkParser
+from scraping.creditasia_parser import CreditAsiaParser
 
 
 bot = telebot.TeleBot(token=token)
@@ -11,5 +12,5 @@ def start_message(message):
 
 if __name__ == '__main__':
     # bot.infinity_polling()
-    instance = TechnoparkParser()
+    instance = CreditAsiaParser()
     print(instance.find_price("iphone 13"))

@@ -1,4 +1,5 @@
 import re
+
 from bs4 import BeautifulSoup
 from item import Item
 from .parser import Parser
@@ -12,7 +13,7 @@ class TechnoparkParser(Parser):
         self.source = 'Technopark'
 
     #Overriding abstract method
-    def find_price(self, product_name: str) -> list:
+    def get_product_list(self, product_name: str) -> list:
         content = super().get_page_content(product_name=product_name, url=self.url, searchbar_xpath=self.searchbar_xpath)
         soup = BeautifulSoup(content, features="lxml")
 

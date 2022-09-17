@@ -1,5 +1,7 @@
 import re
+
 from bs4 import BeautifulSoup
+
 from .parser import Parser
 from item import Item
 
@@ -10,7 +12,7 @@ class CreditAsiaParser(Parser):
         self.searchbar_xpath = '//*[@id="search"]'
         self.source = "Credit Asia"
 
-    def find_price(self, product_name: str) -> list:
+    def get_product_list(self, product_name: str) -> list:
         content = super().get_page_content(product_name=product_name, url=self.url, searchbar_xpath=self.searchbar_xpath)
         soup = BeautifulSoup(content, features="lxml")
 
@@ -28,7 +30,6 @@ class CreditAsiaParser(Parser):
             name = soup.find('div', attrs={'class': 'product__title'})
             soup = BeautifulSoup(str(name), features='lxml')
             name = soup.find('a').get_text()
-
 
             item_list.append(Item(name=name, price=price, link=url, image=img, source=self.source))
 

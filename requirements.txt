@@ -1,0 +1,25 @@
+async-generator==1.10
+attrs==22.1.0
+beautifulsoup4==4.11.1
+certifi @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_884c889c-96af-444f-bd6d-daddb5e9a462ykj3l5n_/croots/recipe/certifi_1655968814730/work/certifi
+charset-normalizer==2.1.1
+CurrencyConverter==0.17
+fake-useragent==0.1.11
+h11==0.13.0
+idna==3.3
+lxml==4.9.1
+outcome==1.2.0
+PySocks==1.7.1
+pyTelegramBotAPI==4.7.0
+python-dotenv==0.20.0
+requests==2.28.1
+selenium==4.4.3
+sniffio==1.2.0
+sortedcontainers==2.4.0
+soupsieve==2.3.2.post1
+tqdm==4.64.0
+trio==0.21.0
+trio-websocket==0.9.2
+urllib3==1.26.11
+webdriver-manager==3.8.3
+wsproto==1.2.0

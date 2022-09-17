@@ -12,5 +12,5 @@ def start_message(message):
 
 if __name__ == '__main__':
     # bot.infinity_polling()
-    instance = CreditAsiaParser()
-    print(instance.find_price("iphone 13"))
+    instance = TechnoparkParser()
+    print(instance.find_price("iphone 13")[0])

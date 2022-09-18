@@ -1,7 +1,7 @@
 import telebot
 from telebot import types
 
-import config as cfg
+import configuration.config as cfg
 from scraping.technopark_parser import TechnoparkParser
 from scraping.creditasia_parser import CreditAsiaParser
 
@@ -24,19 +24,30 @@ def start_message(message):
 def handle_message(message):
     match message.text:
         case cfg.CREDITASIA:
+            message = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message, creditasia_handler)
 
         case cfg.TECHNOPARK:
+            message = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
             bot.register_next_step_handler(message, technopark_handler)
         
         case _:
             bot.send_message(message.chat.id, cfg.NOTFOUND_MESSAGE)
 
+
 def creditasia_handler(message):
-    bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE)
+    parser = CreditAsiaParser()
+    product_list = parser.get_product_list(product_name=message.text)
+
+    for item in product_list:
+        bot.send_photo(message.chat.id, photo=item.image, caption=item)
 
 def technopark_handler(message):
-    bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE)
+    parser = TechnoparkParser()
+    product_list = parser.get_product_list(product_name=message.text)
+
+    for item in product_list:
+        bot.send_photo(message.chat.id, photo=item.image, caption=item)
 
 
 if __name__ == '__main__':

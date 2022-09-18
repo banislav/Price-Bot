@@ -9,7 +9,7 @@ from scraping.creditasia_parser import CreditAsiaParser
 bot = telebot.TeleBot(token=cfg.TOKEN)
 
 @bot.message_handler(commands=["start"])
-def start_message(message):
+def start_message(message, text:str=cfg.GREETING_MESSAGE):
     keyboard_markup = types.ReplyKeyboardMarkup()
 
     tp_shop_button = types.KeyboardButton(text=cfg.TECHNOPARK)
@@ -18,7 +18,7 @@ def start_message(message):
     keyboard_markup.add(tp_shop_button)
     keyboard_markup.add(ca_shop_button)
 
-    bot.send_message(message.chat.id, cfg.GREETING_MESSAGE, reply_markup=keyboard_markup)
+    bot.send_message(message.chat.id, text, reply_markup=keyboard_markup)
 
 @bot.message_handler(content_types=['text'])
 def handle_message(message):
@@ -32,22 +32,28 @@ def handle_message(message):
             bot.register_next_step_handler(message, technopark_handler)
         
         case _:
-            bot.send_message(message.chat.id, cfg.NOTFOUND_MESSAGE)
+            bot.send_message(message.chat.id, cfg.UNKNOWNCOMMAND_MESSAGE)
 
 
 def creditasia_handler(message):
-    parser = CreditAsiaParser()
-    product_list = parser.get_product_list(product_name=message.text)
+    send_product_list(message, CreditAsiaParser())
 
-    for item in product_list:
-        bot.send_photo(message.chat.id, photo=item.image, caption=item)
+    start_message(message, 'Anything else I can do for you?')
 
 def technopark_handler(message):
-    parser = TechnoparkParser()
-    product_list = parser.get_product_list(product_name=message.text)
+    send_product_list(message, TechnoparkParser())
+    bot.register_next_step_handler(message, start_message)
 
-    for item in product_list:
-        bot.send_photo(message.chat.id, photo=item.image, caption=item)
+
+def send_product_list(message, parser):
+    product_list = parser.get_product_list(product_name=message.text)
+    
+    if len(product_list) == 0:
+        bot.send_message(message.chat.id, cfg.NOTFOUND_MESSAGE)
+    else:
+        for item in product_list:
+            print(item.image)
+            bot.send_photo(message.chat.id, photo=item.image, caption=item)
 
 
 if __name__ == '__main__':

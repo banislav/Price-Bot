@@ -8,7 +8,7 @@ from item import Item
 class CreditAsiaParser(Parser):
 
     def __init__(self) -> None:
-        self.url = "https://www.creditasia.uz/"
+        self.url = "https://www.creditasia.uz"
         self.searchbar_xpath = '//*[@id="search"]'
         self.source = "Credit Asia"
 

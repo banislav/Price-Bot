@@ -12,4 +12,4 @@ class Item:
         self.source = source
     
     def __repr__(self) -> str:
-        return f"name:{self.name} price:{self.price} url:{self.link} image:{self.image} source:{self.source}"
+        return f"Product name: {self.name}\nPrice: {self.price}\nUrl: {self.link}\nSource: {self.source}"

@@ -8,7 +8,7 @@ from .parser import Parser
 class TechnoparkParser(Parser):
 
     def __init__(self) -> None:
-        self.url = "https://www.technopark.ru/"
+        self.url = "https://www.technopark.ru"
         self.searchbar_xpath = '//*[@id="header-search-input-main"]'
         self.source = 'Technopark'
 
@@ -27,7 +27,7 @@ class TechnoparkParser(Parser):
             img = soup.find('img', attrs={'class':'tp-lazy-image'}).get('src')
             
             price = soup.find('div', attrs={'class':"product-prices__price"}).get_text()
-            # price = re.sub('\\s+', ' ', price)
+            price = re.sub('\\s+', ' ', price)
 
             item_list.append(Item(name=name, price=price, link=url, image=img, source=self.source))
 

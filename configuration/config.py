@@ -8,6 +8,6 @@ TECHNOPARK = 'Technopark'
 CREDITASIA = 'CreditAsia'
 HISTORY = 'View History'
 
-GREETING_MESSAGE = 'Hello, I am price bot, what do you want to do?'
+GREETING_MESSAGE = 'Hello, I am Price Bot, where do I search?'
 NOTFOUND_MESSAGE = 'Unfortunately, I can not understand you'
 QUERY_MESSAGE = 'What are you searching for?'

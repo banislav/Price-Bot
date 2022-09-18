@@ -11,10 +11,11 @@ class TechnoparkParser(Parser):
         self.url = "https://www.technopark.ru"
         self.searchbar_xpath = '//*[@id="header-search-input-main"]'
         self.source = 'Technopark'
+        self.scroll = True
 
     #Overriding abstract method
     def get_product_list(self, product_name: str) -> list:
-        content = super().get_page_content(product_name=product_name, url=self.url, searchbar_xpath=self.searchbar_xpath)
+        content = super().get_page_content(product_name=product_name, url=self.url, searchbar_xpath=self.searchbar_xpath, scroll=self.scroll)
         soup = BeautifulSoup(content, features="lxml")
 
         raw_list = soup.find_all('div', attrs={'class':'product-card-big__container'})

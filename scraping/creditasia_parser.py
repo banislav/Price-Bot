@@ -11,9 +11,10 @@ class CreditAsiaParser(Parser):
         self.url = "https://www.creditasia.uz"
         self.searchbar_xpath = '//*[@id="search"]'
         self.source = "Credit Asia"
+        self.scroll = False
 
     def get_product_list(self, product_name: str) -> list:
-        content = super().get_page_content(product_name=product_name, url=self.url, searchbar_xpath=self.searchbar_xpath)
+        content = super().get_page_content(product_name=product_name, url=self.url, searchbar_xpath=self.searchbar_xpath, scroll=self.scroll)
         soup = BeautifulSoup(content, features="lxml")
 
         raw_list = soup.find_all('div', attrs={'class':'item'})

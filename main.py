@@ -42,17 +42,17 @@ def creditasia_handler(message):
 
 def technopark_handler(message):
     send_product_list(message, TechnoparkParser())
-    bot.register_next_step_handler(message, start_message)
+
+    start_message(message, 'Anything else I can do for you?')
 
 
 def send_product_list(message, parser):
-    product_list = parser.get_product_list(product_name=message.text)
+    product_list = parser.get_product_list(product_name=message.text)[:5]
     
     if len(product_list) == 0:
         bot.send_message(message.chat.id, cfg.NOTFOUND_MESSAGE)
     else:
         for item in product_list:
-            print(item.image)
             bot.send_photo(message.chat.id, photo=item.image, caption=item)
 
 

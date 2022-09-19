@@ -10,6 +10,11 @@ bot = telebot.TeleBot(token=cfg.TOKEN)
 
 @bot.message_handler(commands=["start"])
 def start_message(message, text:str=cfg.GREETING_MESSAGE):
+    keyboard_markup = send_keyboard()
+
+    bot.send_message(message.chat.id, text, reply_markup=keyboard_markup)
+
+def send_keyboard():
     keyboard_markup = types.ReplyKeyboardMarkup()
 
     tp_shop_button = types.KeyboardButton(text=cfg.TECHNOPARK)
@@ -18,7 +23,7 @@ def start_message(message, text:str=cfg.GREETING_MESSAGE):
     keyboard_markup.add(tp_shop_button)
     keyboard_markup.add(ca_shop_button)
 
-    bot.send_message(message.chat.id, text, reply_markup=keyboard_markup)
+    return keyboard_markup
 
 @bot.message_handler(content_types=['text'])
 def handle_message(message):
@@ -32,7 +37,7 @@ def handle_message(message):
             bot.register_next_step_handler(message, technopark_handler)
         
         case _:
-            bot.send_message(message.chat.id, cfg.UNKNOWNCOMMAND_MESSAGE)
+            start_message(message, text=cfg.UNKNOWNCOMMAND_MESSAGE)
 
 
 def creditasia_handler(message):

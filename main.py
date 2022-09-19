@@ -43,12 +43,12 @@ def handle_message(message):
 def creditasia_handler(message):
     send_product_list(message, CreditAsiaParser())
 
-    start_message(message, 'Anything else I can do for you?')
+    start_message(message, cfg.ASKAGAIN_MESSAGE)
 
 def technopark_handler(message):
     send_product_list(message, TechnoparkParser())
 
-    start_message(message, 'Anything else I can do for you?')
+    start_message(message, cfg.ASKAGAIN_MESSAGE)
 
 
 def send_product_list(message, parser):

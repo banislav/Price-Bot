@@ -8,6 +8,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+import configuration.config as cfg
+
 
 class Parser(ABC):
     '''
@@ -30,13 +32,13 @@ class Parser(ABC):
         with webdriver.Chrome(ChromeDriverManager().install(), options=options) as driver:
             #Simulate real user
             driver.get(url)
-            sleep(2)
+            sleep(cfg.LOAD_TIMEOUT)
             search_element = driver.find_element(By.XPATH, searchbar_xpath)
             search_element.click()
             search_element.clear()
             search_element.send_keys(product_name)
             search_element.send_keys(Keys.ENTER)
-            sleep(2)
+            sleep(cfg.LOAD_TIMEOUT)
 
             if scroll:
                 for i in range(5):

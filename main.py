@@ -13,6 +13,7 @@ def start_message(message, text:str=cfg.GREETING_MESSAGE):
     keyboard_markup = send_keyboard()
 
     bot.send_message(message.chat.id, text, reply_markup=keyboard_markup)
+    bot.register_next_step_handler(message, handle_message)
 
 def send_keyboard():
     keyboard_markup = types.ReplyKeyboardMarkup()
@@ -25,7 +26,7 @@ def send_keyboard():
 
     return keyboard_markup
 
-@bot.message_handler(content_types=['text'])
+
 def handle_message(message):
     match message.text:
         case cfg.CREDITASIA:

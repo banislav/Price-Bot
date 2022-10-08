@@ -15,3 +15,5 @@ UNKNOWNCOMMAND_MESSAGE = 'I do not understand this command'
 ASKAGAIN_MESSAGE = 'Anything else I can do for you?'
 
 LOAD_TIMEOUT = 2
+
+DATABASE_CONNECTION = 'postgresql+psycopg2://mlfhuntr:@localhost:6543:telebot-requests'

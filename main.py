@@ -1,3 +1,4 @@
+import threading
 import typing
 from requests import get
 import telebot
@@ -50,11 +51,16 @@ def handle_message(message) -> None:
 
 
 def compare_handler(message) -> None:
-    ca_result = send_product_list(message, CreditAsiaParser(), product_number=1)[0]
-    tp_result = send_product_list(message, TechnoparkParser(), product_number=1)[0]
+    parsers = (CreditAsiaParser(), TechnoparkParser())
+    thread_list = []
+    
+    for parser in parsers:
+        thread = threading.Thread(target=send_product_list, args=(message, parser, 1))
+        thread_list.append(thread)
+        thread.start()
 
-    msg = f"{ca_result.source}: {ca_result.name} {ca_result.price}\n" + f"{tp_result.source}: {tp_result.name} {tp_result.price}"
-    bot.send_message(message.chat.id, text=msg)
+    for t in thread_list:
+        t.join()
 
     start_message(message, cfg.ASKAGAIN_MESSAGE)
 

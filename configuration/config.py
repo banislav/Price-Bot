@@ -7,6 +7,7 @@ TOKEN = os.environ.get("TOKEN")
 TECHNOPARK = 'Technopark'
 CREDITASIA = 'CreditAsia'
 HISTORY = 'View History'
+COMPARE = 'Compare prices'
 
 GREETING_MESSAGE = 'Hello, I am Price Bot, where do I search?'
 NOTFOUND_MESSAGE = 'Unfortunately, I did not find anything'

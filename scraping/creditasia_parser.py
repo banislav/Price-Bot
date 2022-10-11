@@ -1,4 +1,5 @@
 import re
+from typing import List
 
 from bs4 import BeautifulSoup
 
@@ -13,7 +14,7 @@ class CreditAsiaParser(Parser):
         self.source = "Credit Asia"
         self.scroll = False
 
-    def get_product_list(self, product_name: str) -> list:
+    def get_product_list(self, product_name: str) -> List[Item]:
         content = super().get_page_content(product_name=product_name, url=self.url, searchbar_xpath=self.searchbar_xpath, scroll=self.scroll)
         soup = BeautifulSoup(content, features="lxml")
 

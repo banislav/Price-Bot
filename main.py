@@ -7,6 +7,7 @@ import configuration.config as cfg
 from item import Item
 from scraping.technopark_parser import TechnoparkParser
 from scraping.creditasia_parser import CreditAsiaParser
+import database.database as db
 
 
 bot = telebot.TeleBot(token=cfg.TOKEN)
@@ -35,27 +36,37 @@ def send_keyboard() -> types.ReplyKeyboardMarkup:
 
 
 def handle_message(message) -> None:
-    msg = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
-
     match message.text:
         case cfg.CREDITASIA:
-            bot.register_next_step_handler(msg, creditasia_handler)
+            message = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
+            bot.register_next_step_handler(message, creditasia_handler)
 
         case cfg.TECHNOPARK:
-            bot.register_next_step_handler(msg, technopark_handler)
+            message = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
+            bot.register_next_step_handler(message, technopark_handler)
 
         case cfg.COMPARE:
-            bot.register_next_step_handler(msg, compare_handler)
+            message = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
+            bot.register_next_step_handler(message, compare_handler)
 
         case cfg.HISTORY:
-            bot.register_next_step_handler(msg, history_handler)
+            history_handler(message)
         
         case _:
             start_message(message, text=cfg.UNKNOWNCOMMAND_MESSAGE)
 
 
 def history_handler(message) -> None:
-    pass
+    if not db.check_if_user_exists(message.from_user.id):
+        start_message(message, text=cfg.USER_NOTFOUND)
+    else:
+        user_history = db.get_user_records(message.from_user.id)
+        user_history = list(map(str, user_history))
+        text = '\n'.join(user_history)
+        
+        bot.send_message(message.chat.id, text)
+
+    start_message(message, text=cfg.ASKAGAIN_MESSAGE)
 
 def compare_handler(message) -> None:
     parsers = (CreditAsiaParser(), TechnoparkParser())
@@ -85,7 +96,8 @@ def technopark_handler(message) -> None:
 
 def send_product_list(message, parser, product_number:int) -> typing.List[Item]:
     product_list = parser.get_product_list(product_name=message.text)[:product_number]
-    
+    db.add_record(query=message.text, user_id=message.from_user.id, source=parser.source)
+
     if len(product_list) == 0:
         bot.send_message(message.chat.id, cfg.NOTFOUND_MESSAGE)
     else:

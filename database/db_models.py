@@ -10,11 +10,6 @@ class Request(Base):
     source = Column(String)
     query = Column(String)
     user_id = Column(Integer)
-
-    def __init__(self, query:str, user_id:int, source:int) -> None:
-        self.source = source
-        self.query = query
-        self.user_id = user_id
     
     def __str__(self) -> str:
         return f'{self.id}. Searched for {self.query} from {self.source}'

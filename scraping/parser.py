@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 from time import sleep
 from abc import ABC, abstractmethod
 
@@ -9,6 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 import configuration.config as cfg
+from item import Item
 
 
 class Parser(ABC):
@@ -17,7 +18,7 @@ class Parser(ABC):
     '''
 
     @abstractmethod
-    def get_product_list(self, product_name: str) -> list:
+    def get_product_list(self, product_name: str) -> List[Item]:
         pass
     
     def get_page_content(self, 

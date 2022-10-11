@@ -24,31 +24,38 @@ def send_keyboard() -> types.ReplyKeyboardMarkup:
     tp_shop_button = types.KeyboardButton(text=cfg.TECHNOPARK)
     ca_shop_button = types.KeyboardButton(text=cfg.CREDITASIA)
     compare_button = types.KeyboardButton(text=cfg.COMPARE)
+    history_button = types.KeyboardButton(text=cfg.HISTORY)
 
     keyboard_markup.add(tp_shop_button)
     keyboard_markup.add(ca_shop_button)
     keyboard_markup.add(compare_button)
+    keyboard_markup.add(history_button)
 
     return keyboard_markup
 
 
 def handle_message(message) -> None:
+    msg = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
+
     match message.text:
         case cfg.CREDITASIA:
-            message = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
-            bot.register_next_step_handler(message, creditasia_handler)
+            bot.register_next_step_handler(msg, creditasia_handler)
 
         case cfg.TECHNOPARK:
-            message = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
-            bot.register_next_step_handler(message, technopark_handler)
+            bot.register_next_step_handler(msg, technopark_handler)
 
         case cfg.COMPARE:
-            message = bot.send_message(message.chat.id, text=cfg.QUERY_MESSAGE, reply_markup=types.ReplyKeyboardRemove())
-            bot.register_next_step_handler(message, compare_handler)
+            bot.register_next_step_handler(msg, compare_handler)
+
+        case cfg.HISTORY:
+            bot.register_next_step_handler(msg, history_handler)
         
         case _:
             start_message(message, text=cfg.UNKNOWNCOMMAND_MESSAGE)
 
+
+def history_handler(message) -> None:
+    pass
 
 def compare_handler(message) -> None:
     parsers = (CreditAsiaParser(), TechnoparkParser())
